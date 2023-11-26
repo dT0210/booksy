@@ -3,11 +3,9 @@
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
-use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Book;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,11 +26,15 @@ Route::get('/', function() {
     }
 });
 
-// Route::get('/', [BookController::class, 'index']);
-
-Route::get('/books/all', [BookController::class, 'index']);
-
 Route::get('/book/show/{book}', [BookController::class, 'show']);
+
+Route::get('/shelves', function() {
+    if (Auth::check()) {
+        return app(UserController::class)->booksInShelves(Auth::user());
+    } else {
+        return view('welcome');
+    }
+});
 
 Route::get('/author', [AuthorController::class, 'index']);
 
@@ -55,3 +57,11 @@ Route::post('/book/shelf', [BookController::class, 'shelf']);
 Route::post('/book/rate', [BookController::class, 'rate']);
 
 Route::get('/search', [BookController::class, 'search']);
+
+Route::get('/recommendations', function() {return view('wip');});
+
+Route::get('/user/profile', function() {return view('wip');});
+
+Route::get('/user/settings', function() {return view('wip');});
+
+Route::get('/genre/show/{genre}', [BookController::class, 'genre']);

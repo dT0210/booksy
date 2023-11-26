@@ -53,7 +53,7 @@ class User extends Authenticatable
     {
         $query = $this->belongsToMany(Book::class, 'shelf', 'user_id', 'book_id')
                       ->as('shelf')
-                      ->withPivot('shelf_name');
+                      ->withPivot('shelf_name', 'date_added');
 
         if ($shelf !== null) {
             $query = $query->wherePivot('shelf_name', $shelf);

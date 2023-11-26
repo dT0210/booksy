@@ -55,5 +55,17 @@ class UserController extends Controller
 
         return redirect('/')->with('message', 'You have been signed out.');
     }
+
+    public function booksInShelves(User $user) {
+        $books = $user->books(request('shelf'))->orderBy('shelf.date_added', 'desc')->paginate(2);
+        return view('users.shelves', [
+            'user' => $user,
+            'books' => $books,
+            'shelf' => request('shelf')
+        ]);
+    }
     
+    public function recommendations() {
+        return view('users.recommendations');
+    }
 }

@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sign in</title>
     @vite('resources/css/app.css')
-    @vite('resources/css/nav.css')
 </head>
 <body>
     <div class="w-full h-full">

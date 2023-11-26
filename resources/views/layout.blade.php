@@ -28,12 +28,12 @@
         <a href="/"><img class="w-36" src="/images/Logo2.png" alt=""></a>
         <ul class="flex justify-between items-center px-5 h-full">
             <li class="cursor-pointer hover:text-neutral-50 hover:bg-cyan-900 h-full flex items-center"><a href="/" class="font-medium p-5 w-full h-full">Home</a></li>
-            <li class="cursor-pointer hover:text-neutral-50 hover:bg-cyan-900 h-full flex items-center"><a href="/undetermined" class="font-medium p-5 w-full h-full">My books</a></li>
+            <li class="cursor-pointer hover:text-neutral-50 hover:bg-cyan-900 h-full flex items-center"><a href="/shelves" class="font-medium p-5 w-full h-full">My books</a></li>
             <li class="cursor-pointer relative hover:text-neutral-50 hover:bg-cyan-900 h-full px-5 flex items-center " onclick="toggleBrowse()">
                 <span class="font-medium">Browse <span class="text-xs">&#x25BC;</span></span>
                 <div id="browse" class="hidden absolute z-10 bg-gray-200 text-black top-full left-0 p-3 shadow-md hover:cursor-default">
                     <ul>
-                        <li><a href="" class="hover:underline">Recommendations</a></li>
+                        <li><a href="/recommendations" class="hover:underline">Recommendations</a></li>
                         <li><a href="" class="hover:underline">New Releases</a></li>
                     </ul>
                 </div>
@@ -67,8 +67,8 @@
                 <div id="userMenu" class="hidden absolute z-10 w-36 bg-gray-200 text-black top-full right-0 p-3 shadow-md hover:cursor-default">
                     <ul>
                         <li class="my-2 text-md font-semibold">{{auth()->user()->name}}</li>
-                        <li><a href="" class="hover:underline">Profile</a></li>
-                        <li><a href="" class="hover:underline">Account settings</a></li>
+                        <li><a href="/user/profile" class="hover:underline">Profile</a></li>
+                        <li><a href="/user/settings" class="hover:underline">Account settings</a></li>
                         <li>
                             <form class="inline" method="POST" action="/user/sign_out">
                                 @csrf
@@ -85,10 +85,9 @@
             @endauth
         </ul>
     </div>
-    <div class="">
+    <div class="mt-16 w-full">
         @yield('content')
     </div>
-    
     <script>
         function truncateText(text, length) {
             if (text.length <= length) {

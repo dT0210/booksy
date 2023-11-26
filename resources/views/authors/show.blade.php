@@ -1,11 +1,8 @@
 @extends('layout')
 
-@php
-
-@endphp
-
 @section('content')
-<div class="mt-20">
+
+<div class="pt-2">
     <div class="grid grid-cols-4 mx-auto w-[90%] my-5">
         <div class="col-span-1 mx-auto">
             <div class="px-5">

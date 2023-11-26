@@ -3,15 +3,15 @@
 @section('content')
 
 @php
-    $contributors = $book['contributors'];
+    $contributors = $book->contributors;
     $stringContributors = [];
 
     foreach ($contributors as $contributor) {
-        if ($contributor['contribution']['role'] == 'author') {
+        if ($contributor->contribution->role == 'author') {
             $author = $contributor;
-            array_unshift($stringContributors, "<a href='/author/show/" . $contributor['id'] . "' class='hover:underline'>" . $contributor['name'] . "</a>");
+            array_unshift($stringContributors, "<a href='/author/show/" . $contributor->id . "' class='hover:underline'>" . $contributor->name . "</a>");
         } else {
-            $stringContributors[] = "<a href='/author/show/" . $contributor['id'] . "' class='hover:underline'>" . $contributor['name'] . "</a>" . ' <span class="text-gray-500">(' . $contributor['contribution']['role'] . ')</span>';
+            $stringContributors[] = "<a href='/author/show/" . $contributor->id . "' class='hover:underline'>" . $contributor->name . "</a>" . ' <span class="text-gray-500">(' . $contributor['contribution']['role'] . ')</span>';
         }
     }
     $formattedContributors = implode(', ', $stringContributors);
@@ -37,18 +37,23 @@
 @endphp
 @auth
     @php
-        foreach (auth()->user()->books as $bookInShelf) {
-            if ($book->id == $bookInShelf->id) {
-                $shelfName = $bookInShelf->shelf->shelf_name;
-            }
+        $shelf = $book->shelf(auth()->user());
+        if (isset($shelf)) {
+            if ($shelf->shelf_name == 'read')
+                $shelfName = 'Read';
+            elseif ($shelf->shelf_name == 'reading')
+                $shelfName = 'Currently Reading';
+            else 
+                $shelfName = 'Want to Read';
         }
-        $rating = $book->ratings()->where('user_id', auth()->user()->account_id)->first();
+        
+        $rating = $book->rating(auth()->user());
     @endphp
 @endauth
 
 
 
-<div class="grid grid-cols-7 w-6/7 mt-16 pt-5 min-h-screen">
+<div class="grid grid-cols-7 w-6/7 pt-5 min-h-screen pb-5">
     <div class="px-10 col-span-2">
         <div class="sticky top-[84px] max-h-full">
             <div class="px-10 flex items-center justify-center"><img src="{{$book->cover}}" alt="" class="h-72 shadow-[0_0_10px_10px_rgba(100,100,100,0.2)]"></div>
@@ -77,7 +82,7 @@
                             <input type="hidden" name="userId" value="not signed in">
                         @endauth
                         <input type="hidden" name="bookId" value="{{$book->id}}">
-                        <input type="hidden" name="shelfName" value="Want to Read">
+                        <input type="hidden" name="shelfName" value="to-read">
                         <button type="submit" class="w-full h-full hover:cursor-pointer flex items-center justify-center rounded-full text-white bg-emerald-700 hover:bg-emerald-600">
                             Want to Read
                         </button>  
@@ -101,10 +106,18 @@
                             .rate button:hover ~ button {
                                 color:white !important;
                             }
+                            .rate button:hover ~ button path{
+                                stroke: grey;
+                            }
+                            .rate button:hover path {
+                                stroke: rgb(255, 150, 0);
+                            }
                             .rate:hover button {
                                 color:rgb(255, 150, 0);
                             }
-                            
+                            .rate:hover button path {
+                                stroke:rgb(255, 150, 0);
+                            }
                         </style>
                         <input type="hidden" name="bookId" value="{{$book->id}}">
                         @auth
@@ -112,33 +125,33 @@
                         @else
                             <input type="hidden" name="userId" value="not signed in">
                         @endauth
-                        <span class="rate">
-                            <button class="w-8 h-8 <?php if (isset($rating) && $rating->rating >= 1) echo "rated"; ?>" type="submit" name="ratingValue" value="1">
+                        <div class="rate flex">
+                            <button class="w-10 h-10 p-1 <?php if (isset($rating) && $rating->rating >= 1) echo "rated"; ?>" type="submit" name="ratingValue" value="1">
                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 1.564l2.48 7.604h7.993l-6.47 4.698 2.48 7.604-6.47-4.698-6.47 4.698 2.48-7.604-6.47-4.698h7.993z" stroke="grey" stroke-width="1"/>
                                 </svg>
                             </button>
-                            <button class="w-8 h-8 <?php if (isset($rating) && $rating->rating >= 2) echo "rated"; ?>" type="submit" name="ratingValue" value="2">
+                            <button class="w-10 h-10 p-1 <?php if (isset($rating) && $rating->rating >= 2) echo "rated"; ?>" type="submit" name="ratingValue" value="2">
                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 1.564l2.48 7.604h7.993l-6.47 4.698 2.48 7.604-6.47-4.698-6.47 4.698 2.48-7.604-6.47-4.698h7.993z" stroke="grey" stroke-width="1"/>
                                 </svg>
                             </button>
-                            <button class="w-8 h-8 <?php if (isset($rating) && $rating->rating >= 3) echo "rated"; ?>" type="submit" name="ratingValue" value="3">
+                            <button class="w-10 h-10 p-1 <?php if (isset($rating) && $rating->rating >= 3) echo "rated"; ?>" type="submit" name="ratingValue" value="3">
                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 1.564l2.48 7.604h7.993l-6.47 4.698 2.48 7.604-6.47-4.698-6.47 4.698 2.48-7.604-6.47-4.698h7.993z" stroke="grey" stroke-width="1"/>
                                 </svg> 
                             </button>
-                            <button class="w-8 h-8 <?php if (isset($rating) && $rating->rating >= 4) echo "rated"; ?>" type="submit" name="ratingValue" value="4">
+                            <button class="w-10 h-10 p-1 <?php if (isset($rating) && $rating->rating >= 4) echo "rated"; ?>" type="submit" name="ratingValue" value="4">
                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 1.564l2.48 7.604h7.993l-6.47 4.698 2.48 7.604-6.47-4.698-6.47 4.698 2.48-7.604-6.47-4.698h7.993z" stroke="grey" stroke-width="1"/>
                                 </svg>
                             </button>
-                            <button class="w-8 h-8 <?php if (isset($rating) && $rating->rating == 5) echo "rated"; ?>" type="submit" name="ratingValue" value="5">
+                            <button class="w-10 h-10 p-1 <?php if (isset($rating) && $rating->rating == 5) echo "rated"; ?>" type="submit" name="ratingValue" value="5">
                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 1.564l2.48 7.604h7.993l-6.47 4.698 2.48 7.604-6.47-4.698-6.47 4.698 2.48-7.604-6.47-4.698h7.993z" stroke="grey" stroke-width="1"/>
                                 </svg>  
                             </button>
-                        </span>
+                        </div>
                     </form>
                     <div class="text-sm text-gray-700">
                         @if (isset($rating))
@@ -230,29 +243,50 @@
             <div class="text-small mt-2 text-slate-500 font-medium">
                 First published {{$formatDate($book->publish_date)}}
             </div>
-            <div class="border-t-2 mt-8 pt-5">
-                <span class="font-serif text-xl font-medium">About the author</span>
-                <div class="flex my-5">
-                    <a href="/author/show/{{$author->id}}" class="w-20 h-20 mr-3">
-                        <img src="{{$author->picture}}" alt="" class="w-full h-full object-cover rounded-full" onerror="this.src='/images/author_noimages.png';">
-                    </a>
-                    <div class="flex flex-col justify-center">
-                        <div class="font-serif">
-                            <a href="/author/show/{{$author->id}}" class="hover:underline">{{$author->name}}</a>
-                        </div>
-                        <div class="text-gray-500">
-                            {{$author->contribution->where('contributor_id', $author->id)->count()}} books
-                        </div>
+        </div>
+        <div class="border-t-2 mt-8 pt-3">
+            <div class="font-serif text-xl font-medium">About the author</div>
+            <div class="flex my-5">
+                <a href="/author/show/{{$author->id}}" class="w-20 h-20 mr-3">
+                    <img src="{{$author->picture}}" alt="" class="w-full h-full object-cover rounded-full" onerror="this.src='/images/author_noimages.png';">
+                </a>
+                <div class="flex flex-col justify-center">
+                    <div class="font-serif">
+                        <a href="/author/show/{{$author->id}}" class="hover:underline">{{$author->name}}</a>
+                    </div>
+                    <div class="text-gray-500">
+                        {{$author->contribution->where('contributor_id', $author->id)->count()}} books
                     </div>
                 </div>
-                <div>
-                    <div class="overflow-hidden max-h-24" id="author-bio">
-                        {!!nl2br($author->biography)!!}
-                    </div>
-                    <button id="bio-button" class="font-semibold">Show more</button>
-                </div>
-                
             </div>
+            <div>
+                <div class="overflow-hidden max-h-24" id="author-bio">
+                    {!!nl2br($author->biography)!!}
+                </div>
+                <button id="bio-button" class="font-semibold">Show more</button>
+            </div>
+        </div>
+        <div class="w-full border-t-2 mt-8 pt-3">
+            <form action="/book/rate" method="POST" id="review_form">
+                @csrf
+                <input type="hidden" name="bookId" value="{{$book->id}}">
+                @auth
+                    <input type="hidden" name="userId" value="{{auth()->user()->account_id}}">
+                @else
+                    <input type="hidden" name="userId" value="not signed in">
+                @endauth
+                <div class="font-serif text-xl font-medium mb-1">
+                    Write a review
+                </div>
+                <textarea 
+                    name="review"
+                    class="w-full h-32 border border-slate-400 rounded-md focus:outline-none focus:border-slate-600 focus:shadow-lg p-1"
+                    placeholder="Enter your review (optional)"
+                >@if (isset($rating->review) && $rating->review != ''){{$rating->review}}@endif</textarea>
+                <div class="flex justify-end">
+                    <button type="submit" class="border border-slate-600 font-semibold pl-3 pr-3 pt-1 pb-1 rounded-md">Post</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -271,7 +305,7 @@
                     <input type="hidden" name="userId" value="not signed in">
                 @endauth
                 <input type="hidden" name="bookId" value="{{$book->id}}">
-                <input type="hidden" name="shelfName" value="Want to Read">
+                <input type="hidden" name="shelfName" value="to-read">
                 <button type="submit" class="w-full h-full border border-black rounded-full hover:bg-slate-100">
                     @if (isset($shelfName) && $shelfName == "Want to Read")
                         &#10003;
@@ -287,12 +321,12 @@
                     <input type="hidden" name="userId" value="not signed in">
                 @endauth
                 <input type="hidden" name="bookId" value="{{$book->id}}">
-                <input type="hidden" name="shelfName" value="Reading">
+                <input type="hidden" name="shelfName" value="reading">
                 <button type="submit" class="w-full h-full border border-black rounded-full hover:bg-slate-100">
                     @if (isset($shelfName) && $shelfName == "Reading")
                         &#10003;
                     @endif
-                    Reading
+                    Currently Reading
                 </button>
             </form>
             <form method="POST" action="/book/shelf" class="m-3 h-12">
@@ -303,12 +337,12 @@
                     <input type="hidden" name="userId" value="not signed in">
                 @endauth
                 <input type="hidden" name="bookId" value="{{$book->id}}">
-                <input type="hidden" name="shelfName" value="Have Read">
+                <input type="hidden" name="shelfName" value="read">
                 <button type="submit" class="w-full h-full border border-black rounded-full hover:bg-slate-100">
                     @if (isset($shelfName) && $shelfName == "Have Read")
                         &#10003;
                     @endif
-                    Have Read
+                    Read
                 </button>
             </form>
             <form method="POST" action="/book/shelf" class="m-3 h-12 flex items-center justify-center">
@@ -367,7 +401,6 @@
     const rating = {{$book->ratings()->avg('rating')}};
     const fullStars = Math.floor(rating);
     const partialStar = rating - fullStars;
-    console.log(rating);
 
     for (let i = 1; i <= fullStars; i++) {
         const stop1 = document.getElementById(`stop1-${i}`);
@@ -383,8 +416,6 @@
         stop1.setAttribute('offset', partialStar.toFixed(2));
         stop2.setAttribute('offset', partialStar.toFixed(2));
     }
-
-    
 </script>
 
 @endsection
