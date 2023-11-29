@@ -65,3 +65,7 @@ Route::get('/user/profile', function() {return view('wip');});
 Route::get('/user/settings', function() {return view('wip');});
 
 Route::get('/genre/show/{genre}', [BookController::class, 'genre']);
+
+Route::get('/.well-known/pki-validation/20AB0D5BA06CC241A7CD847357014D28.txt', function () {
+    return response()->file(public_path('.well-known/pki-validation/20AB0D5BA06CC241A7CD847357014D28.txt'));
+});

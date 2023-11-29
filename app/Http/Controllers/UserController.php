@@ -57,7 +57,7 @@ class UserController extends Controller
     }
 
     public function booksInShelves(User $user) {
-        $books = $user->books(request('shelf'))->orderBy('shelf.date_added', 'desc')->paginate(2);
+        $books = $user->books(request('shelf'))->orderBy('shelf.date_added', 'desc')->paginate(10);
         return view('users.shelves', [
             'user' => $user,
             'books' => $books,
