@@ -85,34 +85,34 @@
             @endauth
         </ul>
     </div>
-    <div class="mt-16 w-full">
+    <div class="pt-16 w-full h-full">
         @yield('content')
-    </div>
-    <footer class="w-full h-36 bg-slate-300 p-5 pl-10 pr-10 mt-10">
-        <div class="grid grid-cols-2">
-            <div class="col-span-1">
-                <div class="font-bold text-2xl font-mono">
-                    ABOUT
+        <footer class="w-full h-36 bg-slate-300 p-5 pl-10 pr-10 mt-10">
+            <div class="grid grid-cols-2">
+                <div class="col-span-1">
+                    <div class="font-bold text-2xl font-mono">
+                        ABOUT
+                    </div>
+                    <div>
+                        <div class="w-1/2">
+                            This site is inspired by <a href="https://www.goodreads.com" target="_blank" class="hover:underline text-amber-950">goodreads</a>. 
+                            This is my personal project and will be updated frequently.
+                        </div>
+                    </div>
                 </div>
                 <div>
-                    <div class="w-1/2">
-                        This site is inspired by <a href="https://www.goodreads.com" target="_blank" class="hover:underline text-amber-950">goodreads</a>. 
-                        This is my personal project and will be updated frequently.
+                    <div class="font-bold text-2xl font-mono">
+                        LINKS
+                    </div>
+                    <div class="text-zinc-600">
+                        <div><a href="https://github.com/dT0210" class="hover:underline">Github</a></div>
+                        <div><a href="https://www.facebook.com/ducthanh0210/" class="hover:underline">Facebook</a></div>
+                        <div><a href="https://www.linkedin.com/in/ducthanh0210/" class="hover:underline">Linkedin</a></div>
                     </div>
                 </div>
             </div>
-            <div>
-                <div class="font-bold text-2xl font-mono">
-                    LINKS
-                </div>
-                <div class="text-zinc-600">
-                    <div><a href="https://github.com/dT0210" class="hover:underline">Github</a></div>
-                    <div><a href="https://www.facebook.com/ducthanh0210/" class="hover:underline">Facebook</a></div>
-                    <div><a href="https://www.linkedin.com/in/ducthanh0210/" class="hover:underline">Linkedin</a></div>
-                </div>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
     <script>
         function truncateText(text, length) {
             if (text.length <= length) {

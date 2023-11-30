@@ -266,6 +266,11 @@
                 <button id="bio-button" class="font-semibold">Show more</button>
             </div>
         </div>
+        <div class="mt-5 border-t border-slate-300 pt-5">
+            <div>
+                <x-book-row title="Similar books" :books="$book->similars()" id="similar_books"/>
+            </div>
+        </div>
         <div class="w-full border-t-2 mt-8 pt-3">
             <form action="/book/rate" method="POST" id="review_form">
                 @csrf
@@ -288,6 +293,7 @@
                 </div>
             </form>
         </div>
+        
     </div>
 </div>
 <div id="overlay" class="fixed top-0 w-full h-full bg-opacity-50 bg-black z-50 hidden items-center justify-center">

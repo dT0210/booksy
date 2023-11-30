@@ -46,7 +46,27 @@ class Book extends Model
         return $this->ratings()->where('user_id', $user->account_id)->first();
     }
 
-    public function similar() {
-        //return similar books
+    public function similars()
+    {
+        $thisGenres = $this->genres()->pluck('genre_id');
+        $allBooks = self::where('id', '!=', $this->id)->get();
+
+        if ($thisGenres->isEmpty() || $allBooks->isEmpty()) {
+            return collect();
+        }
+
+        $similarBooks = $allBooks->map(function ($book) use ($thisGenres) {
+            $bookGenres = $book->genres()->pluck('genre_id');
+            $commonGenres = $thisGenres->intersect($bookGenres);
+            $differentGenres = $thisGenres->diff($bookGenres);
+
+            $similarity = $commonGenres->count() / ($commonGenres->count() + $differentGenres->count());
+
+            $book->similarity = $similarity;
+
+            return $book;
+        })->sortByDesc('similarity')->take(10);
+
+        return $similarBooks;
     }
 }
