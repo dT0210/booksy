@@ -3,7 +3,7 @@
 @section('content')
 
 @auth
-<div class="pt-3">
+<div class="pt-3 h-full">
     <div class="w-[80%] mx-auto">
         <div class="mb-3">
             <div class="border-b-2 border-slate-300 pb-1 text-cyan-900">

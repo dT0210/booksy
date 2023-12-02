@@ -86,8 +86,10 @@
         </ul>
     </div>
     <div class="pt-16 w-full h-full">
-        @yield('content')
-        <footer class="w-full h-36 bg-slate-300 p-5 pl-10 pr-10 mt-10">
+        <div class="min-h-full">
+            @yield('content')
+        </div>
+        <footer class=" w-full h-36 bg-slate-300 p-5 pl-10 pr-10 mt-10">
             <div class="grid grid-cols-2">
                 <div class="col-span-1">
                     <div class="font-bold text-2xl font-mono">

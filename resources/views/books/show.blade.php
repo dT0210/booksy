@@ -154,7 +154,7 @@
                         </div>
                     </form>
                     <div class="text-sm text-gray-700">
-                        @if (isset($rating))
+                        @if (isset($rating) && ($rating->rating != null))
                             Rated. <a href="" class="underline">Write a review</a>
                         @else
                             Rate this book
