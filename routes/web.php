@@ -58,7 +58,7 @@ Route::post('/book/rate', [BookController::class, 'rate']);
 
 Route::get('/search', [BookController::class, 'search']);
 
-Route::get('/recommendations', function() {return view('wip');});
+Route::get('/recommendations', [UserController::class, 'recommendations']);
 
 Route::get('/user/profile', function() {return view('wip');});
 

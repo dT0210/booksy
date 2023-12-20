@@ -66,6 +66,7 @@ class UserController extends Controller
     }
     
     public function recommendations() {
+        
         return view('users.recommendations');
     }
 }
