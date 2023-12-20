@@ -19,13 +19,13 @@ class BookController extends Controller
                     ->get(),
             'best' => Book::selectRaw('book.*, avg(rating.rating) as average_rating')
                     ->join('rating', 'rating.book_id', 'book.id')
-                    ->groupBy('book.id', 'book.title', 'book.language', 'book.pages', 'book.publish_date', 'book.description', 'book.cover', 'book.purchase_link')
+                    ->groupBy('book.id', 'book.title', 'book.pages', 'book.publish_date', 'book.description', 'book.cover', 'book.purchase_link')
                     ->orderBy('average_rating','desc')
                     ->limit(10)
                     ->get(),
             'popular' => Book::selectRaw('book.*, count(rating.rating) as ratings_count')
                     ->join('rating', 'rating.book_id', 'book.id')
-                    ->groupBy('book.id', 'book.title', 'book.language', 'book.pages', 'book.publish_date', 'book.description', 'book.cover', 'book.purchase_link')
+                    ->groupBy('book.id', 'book.title', 'book.pages', 'book.publish_date', 'book.description', 'book.cover', 'book.purchase_link')
                     ->orderBy('ratings_count','desc')
                     ->limit(10)
                     ->get()
