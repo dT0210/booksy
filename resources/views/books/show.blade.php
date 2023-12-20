@@ -91,7 +91,7 @@
                     
                 </div>
                 <div class="h-10 text-center">
-                    <a href="{{isset($book->purchase_link) ? $book->purchase_link : 'https://www.amazon.com/s?k=' . $book->title}}" target="_blank" class="flex items-center justify-center w-full h-full hover:cursor-pointer rounded-full border border-slate-900 bg-transparent hover:bg-slate-100 ">Buy on Amazon</a>
+                    <a href="{{isset($book->purchase_link) ? $book->purchase_link : 'https://www.amazon.com/s?k=' . $book->title . '&i=stripbooks'}}" target="_blank" class="flex items-center justify-center w-full h-full hover:cursor-pointer rounded-full border border-slate-900 bg-transparent hover:bg-slate-100 ">Buy on Amazon</a>
                 </div>
                 <div class="flex mt-3 flex-col items-center justify-center">
                     <form method="POST" action="/book/rate" class="flex items-center">
