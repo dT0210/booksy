@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'Your books')
+
 @section('content')
 
 @auth

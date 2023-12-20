@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', $genre->name . ' Books')
+
 @section('content')
 @php
     

@@ -51,7 +51,7 @@
     @endphp
 @endauth
 
-
+@section('title', $book->title . ' - ' . $author->name)
 
 <div class="grid grid-cols-7 w-6/7 pt-5 min-h-screen pb-5">
     <div class="px-10 col-span-2">
