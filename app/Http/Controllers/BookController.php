@@ -118,7 +118,7 @@ class BookController extends Controller
                     ->join('rating', 'rating.book_id', 'book.id')
                     ->join('book_genre', 'book_genre.book_id', '=', 'book.id')
                     ->where('book_genre.genre_id', $genre->id)
-                    ->groupBy('book.id', 'book.title', 'book.language', 'book.pages', 'book.publish_date', 'book.description', 'book.cover', 'book.purchase_link')
+                    ->groupBy('book.id', 'book.title', 'book.pages', 'book.publish_date', 'book.description', 'book.cover', 'book.purchase_link')
                     ->orderBy('average_rating','desc')
                     ->limit(10)
                     ->get(),
@@ -126,7 +126,7 @@ class BookController extends Controller
                     ->join('rating', 'rating.book_id', 'book.id')
                     ->join('book_genre', 'book_genre.book_id', '=', 'book.id')
                     ->where('book_genre.genre_id', $genre->id)
-                    ->groupBy('book.id', 'book.title', 'book.language', 'book.pages', 'book.publish_date', 'book.description', 'book.cover', 'book.purchase_link')
+                    ->groupBy('book.id', 'book.title', 'book.pages', 'book.publish_date', 'book.description', 'book.cover', 'book.purchase_link')
                     ->orderBy('ratings_count','desc')
                     ->limit(10)
                     ->get()
