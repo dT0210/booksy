@@ -34,7 +34,6 @@
                 <div id="browse" class="hidden absolute z-10 bg-gray-200 text-black top-full left-0 p-3 shadow-md hover:cursor-default">
                     <ul>
                         <li><a href="/recommendations" class="hover:underline">Recommendations</a></li>
-                        <li><a href="" class="hover:underline">New Releases</a></li>
                     </ul>
                 </div>
             </li>
@@ -68,7 +67,6 @@
                     <ul>
                         <li class="my-2 text-md font-semibold">{{auth()->user()->name}}</li>
                         <li><a href="/user/profile" class="hover:underline">Profile</a></li>
-                        <li><a href="/user/settings" class="hover:underline">Account settings</a></li>
                         <li>
                             <form class="inline" method="POST" action="/user/sign_out">
                                 @csrf
