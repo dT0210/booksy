@@ -15,7 +15,7 @@
         </div>
         <div class="mt-2">
             @auth
-                
+                IN DEVELOPMENT
             @else
                 Please <span><a href="/user/sign_in" class="hover:underline text-cyan-900">sign in</a></span> to continue
             @endauth
